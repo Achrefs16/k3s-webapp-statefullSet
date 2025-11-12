@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  web:
+    image: achrefs161/lab5-nextjs:latest
+    container_name: lab5_web
+    build: .
+    ports:
+      - "8080:3000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: appdb
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: lab5_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: appdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql

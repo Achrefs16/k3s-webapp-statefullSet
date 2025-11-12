@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab5-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lab5-web
+  template:
+    metadata:
+      labels:
+        app: lab5-web
+    spec:
+      containers:
+        - name: lab5-web
+          image: achrefs161/lab5-nextjs:latest
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: lab5-config
+            - secretRef:
+                name: lab5-secret
